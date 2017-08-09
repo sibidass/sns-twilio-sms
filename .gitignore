@@ -1,0 +1,15 @@
+# Ignoring IDE files
+*.idea/*
+
+#Pyc files
+*.pyc
+
+# OSX DS_store
+*.DS_Store
+
+# ignoring zip and tar files
+*.zip
+*.tar.gz
+
+# ignoring sensitive data
+*_sensitive_*
