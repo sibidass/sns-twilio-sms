@@ -1,0 +1,4 @@
+ACCOUNT_KEY = "XXXXXXXXXXXXXXX"
+ACCOUNT_TOKEN = "XXXXXXXXXXXXXX"
+URL = "https://notify.twilio.com/v1/Services/ISXXXXXXXXXXXXXX/Notifications"
+SMS = True
