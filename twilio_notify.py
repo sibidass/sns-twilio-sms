@@ -4,11 +4,12 @@ import logging
 import boto3
 
 import twilio_api
+from twilio_config import *
 
 logger=logging.getLogger()
 logger.setLevel(logging.INFO)
 
-ec2 = boto3.client('ec2',region_name='ap-south-1')
+ec2 = boto3.client('ec2',region_name=AWS_REGION)
 def lambda_handler(event, context):
     event_dict = dict(event)
     logger.info(event_dict)
