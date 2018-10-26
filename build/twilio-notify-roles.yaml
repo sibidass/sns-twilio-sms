@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  Stage:
+    Type: String
+
+Resources:
+  TwilioNotifyRole:
+      Type: 'AWS::IAM::Role'
+      Properties:
+          Policies:
+            - PolicyDocument: {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                      {
+                          "Effect": "Allow",
+                          "Action": [
+                              "logs:CreateLogGroup",
+                              "logs:CreateLogStream",
+                              "logs:PutLogEvents",
+                              "ec2:CreateNetworkInterface",
+                              "ec2:DescribeNetworkInterfaces",
+                              "ec2:DeleteNetworkInterface"
+                          ],
+                          "Resource": "*"
+                      }
+                  ]
+              }
+              PolicyName: LambdaExec
+          AssumeRolePolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Principal:
+                  Service:
+                    - lambda.amazonaws.com
+                Action:
+                  - 'sts:AssumeRole'
+          RoleName: !Sub twilio-notify-${Stage}-lambdaRole
+
+
+Outputs:
+  TwilioNotifyRoleArn:
+    Description: Arn of LambdaRole
+    Value: !GetAtt TwilioNotifyRole.Arn

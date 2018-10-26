@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  Stage:
+    Type: String
+    AllowedValues:
+      - dev
+      - prod
+      - e2e
+    Default: dev
+    Description: Stage that can be added to resource names
+
+
+Globals:
+  Function:
+    Runtime: python3.6
+    Timeout: 300
+    Environment:
+        stage:
+          Ref: Stage
+    AutoPublishAlias:
+      Ref: Stage
+    MemorySize: 1024
+
+Resources:
+
+    TwilioNotifyFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+           Handler: twilio_notify.lambda_handler
+           CodeUri: lambda/
+           Description: Twillio Notification Lambda
+           FunctionName: !Sub "${Stage}_twillio_notification"
+           Role: !GetAtt RolesStack.Outputs.TwilioNotifyRoleArn
+
+    RolesStack:
+      Type: 'AWS::CloudFormation::Stack'
+      Properties:
+        TemplateURL: twilio-notify-roles.yaml
+        Parameters:
+          Stage:
+            Ref: Stage
+
+
